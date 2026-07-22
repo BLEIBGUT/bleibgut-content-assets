@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>BLEIBGUT — Karussell 08: Vorbestell-Ehrlichkeit</title>
+<style>
+  :root{
+    --gruenschwarz:#14201A;
+    --papier:#EDEEE7;
+    --messing:#B08D57;
+    --dunkelmessing:#8F7042;
+    --salbei:#A9B8A3;
+    --espresso:#3B2A22;
+  }
+  @font-face{font-family:'Bodoni Moda';src:url('../fonts/bodoni-moda-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;}
+  @font-face{font-family:'Bodoni Moda';src:url('../fonts/bodoni-moda-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;}
+  @font-face{font-family:'Bodoni Moda';src:url('../fonts/bodoni-moda-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;}
+  @font-face{font-family:'Hanken Grotesk';src:url('../fonts/hanken-grotesk-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;}
+  @font-face{font-family:'Hanken Grotesk';src:url('../fonts/hanken-grotesk-latin-600-normal.woff2') format('woff2');font-weight:600;font-style:normal;}
+  @font-face{font-family:'Hanken Grotesk';src:url('../fonts/hanken-grotesk-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;}
+  @font-face{font-family:'IBM Plex Mono';src:url('../fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;}
+  @font-face{font-family:'IBM Plex Mono';src:url('../fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:1080px;height:1350px;background:var(--gruenschwarz);}
+  body{font-family:'Hanken Grotesk',sans-serif;color:var(--papier);-webkit-font-smoothing:antialiased;}
+  .slide{display:none;position:relative;width:1080px;height:1350px;background:var(--gruenschwarz);padding:96px 92px 84px;flex-direction:column;}
+  .slide.active{display:flex;}
+  .display{font-family:'Bodoni Moda',serif;-webkit-text-stroke:0.013em;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:27px;letter-spacing:0.32em;text-transform:uppercase;color:var(--messing);}
+  .eyebrow .idx{color:var(--salbei);}
+  .rule{width:112px;height:2px;background:var(--messing);margin:44px 0 0;}
+  .center{flex:1;display:flex;flex-direction:column;justify-content:center;}
+  .footer{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(176,141,87,0.45);padding-top:34px;}
+  .wordmark{font-family:'Bodoni Moda',serif;-webkit-text-stroke:0.013em;font-size:34px;letter-spacing:0.24em;color:var(--papier);}
+  .wordmark .tm{font-size:18px;vertical-align:top;letter-spacing:0;}
+  .pagenum{font-family:'IBM Plex Mono',monospace;font-size:24px;color:var(--salbei);letter-spacing:0.18em;}
+  .light{background:var(--papier);color:var(--gruenschwarz);}
+  .light .wordmark{color:var(--gruenschwarz);}
+  .light .footer{border-top-color:rgba(143,112,66,0.5);}
+  .light .eyebrow{color:var(--dunkelmessing);}
+  .light .pagenum{color:var(--dunkelmessing);}
+  .hook-quote{font-size:132px;line-height:1.08;font-weight:700;letter-spacing:0.005em;}
+  .hook-quote .qmark{color:var(--messing);}
+  .hook-sub{margin-top:58px;font-size:40px;line-height:1.45;font-weight:400;color:var(--salbei);max-width:760px;}
+  .mythos-label{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:26px;letter-spacing:0.3em;color:var(--papier);border:1.5px solid var(--dunkelmessing);padding:14px 26px 12px;}
+  .light .mythos-label{color:var(--gruenschwarz);border-color:var(--dunkelmessing);}
+  .mythos-text{font-family:'Bodoni Moda',serif;-webkit-text-stroke:0.013em;font-style:italic;font-weight:400;font-size:78px;line-height:1.18;margin-top:46px;color:var(--papier);opacity:0.92;}
+  .light .mythos-text{color:var(--espresso);}
+  .fakt-block{margin-top:78px;}
+  .fakt-label{font-family:'IBM Plex Mono',monospace;font-size:26px;letter-spacing:0.3em;color:var(--messing);}
+  .light .fakt-label{color:var(--dunkelmessing);}
+  .fakt-text{margin-top:30px;font-size:47px;line-height:1.42;font-weight:600;max-width:880px;}
+  .fakt-note{margin-top:34px;font-family:'IBM Plex Mono',monospace;font-size:23px;line-height:1.5;color:var(--salbei);letter-spacing:0.04em;}
+  .big-line{font-size:96px;line-height:1.12;font-weight:700;}
+  .big-line .accent{color:var(--messing);}
+  .body-text{margin-top:52px;font-size:43px;line-height:1.5;font-weight:400;max-width:860px;color:var(--papier);}
+  .light .body-text{color:var(--espresso);}
+  .cta-url{margin-top:64px;font-family:'IBM Plex Mono',monospace;font-size:36px;letter-spacing:0.14em;color:var(--messing);}
+  .cta-note{margin-top:20px;font-size:32px;color:var(--salbei);}
+  /* 9:16-Variante für TikTok/YouTube Shorts: ?f=tt — echtes 1920er-Layout, größere Typo */
+  html.tt, html.tt body{height:1920px;}
+  .tt .slide{height:1920px;padding:190px 92px 140px;}
+  .tt .eyebrow{font-size:32px;}
+  .tt .hook-quote{font-size:132px;}
+  .tt .hook-sub{font-size:50px;max-width:880px;margin-top:66px;}
+  .tt .mythos-label{font-size:30px;padding:16px 30px 14px;}
+  .tt .mythos-text{font-size:92px;margin-top:54px;}
+  .tt .fakt-block{margin-top:92px;}
+  .tt .fakt-label{font-size:30px;}
+  .tt .fakt-text{font-size:56px;max-width:900px;margin-top:36px;}
+  .tt .fakt-note{font-size:27px;margin-top:40px;}
+  .tt .big-line{font-size:112px;}
+  .tt .body-text{font-size:52px;max-width:900px;margin-top:60px;}
+  .tt .cta-url{font-size:44px;margin-top:76px;}
+  .tt .cta-note{font-size:38px;}
+  .tt .wordmark{font-size:40px;}
+  .tt .pagenum{font-size:28px;}
+</style>
+</head>
+<body>
+<section class="slide" data-s="1">
+  <div class="eyebrow">Mythos vs. Fakt <span class="idx">&mdash; Vorbestell-Check</span></div>
+  <div class="center">
+    <h1 class="display hook-quote"><span class="qmark">&bdquo;</span>Vorbe&shy;stellen, ohne dass du im Voraus zahlst.<span class="qmark">&ldquo;</span></h1>
+    <p class="hook-sub">Das h&ouml;ren die meisten zum ersten Mal. Vier Sorgen zur Vorbestellung &mdash; und die ehrliche Antwort, inklusive dem unbequemen Punkt.</p>
+    <div class="rule"></div>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">01 / 08</span></div>
+</section>
+<section class="slide" data-s="2">
+  <div class="eyebrow">Mythos <span class="idx">1 / 4</span></div>
+  <div class="center">
+    <span class="mythos-label">MYTHOS</span>
+    <p class="mythos-text">&bdquo;Vorbestellen hei&szlig;t, ich zahle blind im Voraus.&ldquo;</p>
+    <div class="fakt-block">
+      <span class="fakt-label">FAKT</span>
+      <p class="fakt-text">Du bestellst ohne Vorkasse vor. Bezahlt wird erst, wenn dein G&uuml;rtel tats&auml;chlich verschickt wird &mdash; nicht vorher.</p>
+    </div>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">02 / 08</span></div>
+</section>
+<section class="slide light" data-s="3">
+  <div class="eyebrow">Aber &mdash; der ehrliche Punkt</div>
+  <div class="center">
+    <h2 class="display big-line">Ja, du wartest bis September.</h2>
+    <p class="body-text">Kein Blitzversand, kein falsches Versprechen. Die Lieferung ist voraussichtlich ab September &mdash; das sagen wir dir jetzt, nicht erst nach der Bestellung.</p>
+    <div class="rule" style="background:var(--dunkelmessing);margin-top:52px;"></div>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">03 / 08</span></div>
+</section>
+<section class="slide" data-s="4">
+  <div class="eyebrow">Mythos <span class="idx">2 / 4</span></div>
+  <div class="center">
+    <span class="mythos-label">MYTHOS</span>
+    <p class="mythos-text">&bdquo;Ohne Vorkasse hei&szlig;t bestimmt: versteckte Kosten.&ldquo;</p>
+    <div class="fakt-block">
+      <span class="fakt-label">FAKT</span>
+      <p class="fakt-text">Der Versand steht vorher fest: 5,99&nbsp;&euro; innerhalb Deutschlands, ab 99&nbsp;&euro; Bestellwert kostenlos. Nach &Ouml;sterreich 13,99&nbsp;&euro;. Keine &Uuml;berraschung an der Kasse.</p>
+    </div>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">04 / 08</span></div>
+</section>
+<section class="slide" data-s="5">
+  <div class="eyebrow">Mythos <span class="idx">3 / 4</span></div>
+  <div class="center">
+    <span class="mythos-label">MYTHOS</span>
+    <p class="mythos-text">&bdquo;Ein Startpreis ist meistens ein Lockangebot, das sp&auml;ter steigt.&ldquo;</p>
+    <div class="fakt-block">
+      <span class="fakt-label">FAKT</span>
+      <p class="fakt-text">Hier stimmt es nicht: Der Pre-Order-Preis liegt unter dem sp&auml;teren Regul&auml;rpreis &mdash; der Herreng&uuml;rtel zum Beispiel 74&nbsp;&euro; statt 89&nbsp;&euro;.</p>
+      <p class="fakt-note">Kein Trick, sondern Dank f&uuml;r fr&uuml;hes Vertrauen &mdash; alle Pre-Order-Preise stehen offen auf bleibgut.de.</p>
+    </div>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">05 / 08</span></div>
+</section>
+<section class="slide" data-s="6">
+  <div class="eyebrow">Mythos <span class="idx">4 / 4</span></div>
+  <div class="center">
+    <span class="mythos-label">MYTHOS</span>
+    <p class="mythos-text">&bdquo;Eine neue Marke ohne Track-Record &mdash; wer kauft da vor?&ldquo;</p>
+    <div class="fakt-block">
+      <span class="fakt-label">FAKT</span>
+      <p class="fakt-text">Wir sind neu, das stimmt. Deshalb zeigen wir lieber zu viel als zu wenig: Material, Lieferzeit, Preise &mdash; offen einsehbar, nicht erst nach dem Kauf.</p>
+    </div>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">06 / 08</span></div>
+</section>
+<section class="slide" data-s="7">
+  <div class="eyebrow">Worauf es ankommt</div>
+  <div class="center">
+    <h2 class="display big-line">Vertrauen entsteht nicht durch Werbung, sondern durch <span class="accent">Ehrlichkeit.</span></h2>
+    <p class="body-text">Kein Vorkasse-Risiko, klare Versandkosten, ein fairer Pre-Order-Preis. Ob du vorbestellst, entscheidest du &mdash; mit allen Informationen, nicht trotz fehlender.</p>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">07 / 08</span></div>
+</section>
+<section class="slide" data-s="8">
+  <div class="eyebrow">Merken lohnt sich</div>
+  <div class="center">
+    <h2 class="display big-line">Speichern &mdash; f&uuml;r den Moment, in dem du <span class="accent">bereit bist.</span></h2>
+    <p class="body-text">Fragen zur Vorbestellung? Schreib sie in die Kommentare &mdash; wir antworten ehrlich, auch wenn es um Wartezeit geht.</p>
+    <p class="cta-url">bleibgut.de</p>
+    <p class="cta-note">Vorbestellung ohne Vorkasse &middot; #bleibgut</p>
+  </div>
+  <div class="footer"><span class="wordmark">BLEIBGUT<span class="tm">&trade;</span></span><span class="pagenum">08 / 08</span></div>
+</section>
+<script>
+  var p = new URLSearchParams(location.search);
+  var n = parseInt(p.get('s') || '1', 10);
+  if (isNaN(n) || n < 1 || n > 8) n = 1;
+  document.querySelector('.slide[data-s="' + n + '"]').classList.add('active');
+  if (p.get('f') === 'tt') document.documentElement.classList.add('tt');
+</script>
+</body>
+</html>
